@@ -126,7 +126,11 @@ module.exports = {
   _getExcludes: function() {
     var excludes = this._getConfig().excludes || [];
 
-    return excludes;
+    return excludes.concat([
+      this._parentName() + '/tests',
+      'dummy/tests',
+      'dummy/' + this._parentName() + '/tests'
+    ]);
   },
 
   /**

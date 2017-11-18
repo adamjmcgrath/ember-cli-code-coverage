@@ -62,16 +62,16 @@
       data = JSON.parse(data);
     }
 
-    if (!data || !data.total) {
+    if (!data) {
       return;
     }
 
     var results = ['Lines', 'Branches', 'Functions', 'Statements']
       .filter(function (name) {
-        return data.total[name.toLowerCase()]
+        return name.toLowerCase();
       })
       .map(function (name) {
-        return name + ' ' + data.total[name.toLowerCase()].pct + '%'
+        return name + ' ' + data[name.toLowerCase()].pct + '%'
       });
 
     var resultsText = document.createTextNode(results.join(' | '));

@@ -129,6 +129,22 @@ module.exports = {
   },
 
   /**
+   * Check if a file exists within an in-repo addon
+   * @param {String} relativePath - path to file
+   * @returns {Boolean} whether or not the file exists within an in-app addon
+   */
+  _doesFileExistInCurrentProjectInRepoAddons: function(relativePath) {
+    relativePath = relativePath.split('/').splice(1, 0, 'addon').join('/');
+    relativePath = path.join('lib', relativePath);
+
+    if (this._existsSync(relativePath)) {
+      return true;
+    }
+
+    return this._doesTemplateFileExist(relativePath);
+  },
+
+  /**
    * Check if a file exists within the dummy app
    * @param {String} relativePath - path to file within dummy app
    * @returns {Boolean} whether or not the file exists within the dummy app
@@ -193,7 +209,8 @@ module.exports = {
       this._doesFileExistInDummyApp(relativePath) ||
       this._doesFileExistInCurrentProjectApp(relativePath) ||
       this._doesFileExistInCurrentProjectAddon(relativePath) ||
-      this._doesFileExistInCurrentProjectAddonModule(relativePath)
+      this._doesFileExistInCurrentProjectAddonModule(relativePath) ||
+      this._doesFileExistInCurrentProjectInRepoAddons(relativePath)
     );
 
     return !fileExists;
